@@ -1,29 +1,27 @@
 import React, {useEffect} from 'react'
 import './header.scss'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import logo from '../../images/argentBankLogo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faCircleUser, faSignOut, faSignIn} from '@fortawesome/free-solid-svg-icons'
+import {faCircleUser, faSignOut, faSignIn,} from '@fortawesome/free-solid-svg-icons'
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../slices/User';
 
 
-const UserHeader = () => {
-    return (
-        <div className='userHeader'>
-        <p><FontAwesomeIcon icon={faCircleUser}/> Tony</p>
-        <Link className='main-nav-item'to="/">
-            <FontAwesomeIcon icon={faSignOut} />
-            Sign Out
-        </Link>
-        </div>
-    )
-}
+const Header = ( props ) => {
 
-const Header = () => {
+    const { isConnect } = props 
 
-    useEffect(() => {
+    const name = useSelector((state) => state.user);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    })
-
+    const signOut = () => {
+        dispatch(logout());
+        localStorage.clear();
+        navigate('/');
+        console.log('sup')
+    };
     
     return (
         <nav className="main-nav">
@@ -35,14 +33,30 @@ const Header = () => {
                 />
                 <h1 className="sr-only">Argent Bank</h1>
             </Link>
+            { isConnect 
+            ? 
             <div className='main-nav__submenu'>
-                { window.location.href.indexOf('user') > -1 ? <UserHeader /> :
-                <Link className='main-nav-item'to="/sign-in/">
-                    <FontAwesomeIcon icon={faSignIn} />
-                    Sign In
+                <Link
+                    to="/profile" className='main-nav-item'
+                >
+                    <FontAwesomeIcon icon={faCircleUser} />
+                    {name.user.firstName}
                 </Link>
-                }
+                <a
+                    className='main-nav-item' onClick={signOut}
+                >
+                    <FontAwesomeIcon icon={faSignOut} />
+                    Sign Out
+                </a>
             </div>
+            :
+            <Link
+                exact to="/login" className='main-nav-item'
+            >
+                <FontAwesomeIcon icon={faSignIn} />
+                Sign In
+            </Link>
+            }
         </nav>
     )
 }
@@ -50,6 +64,3 @@ const Header = () => {
 export default Header
 
 
-if (window.location.href.indexOf("mystring") > -1) {
-
-}
