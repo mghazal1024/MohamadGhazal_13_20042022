@@ -77,7 +77,7 @@ const SigninPage = () => {
                     value="Sign In"
                     className="signin-button"
                 /> */}
-                <button onClick={signInSubmit}>Sign In</button>
+                <button className='sign-in-button' onClick={signInSubmit}>Sign In</button>
                 </form>
             </section>
         </main>
