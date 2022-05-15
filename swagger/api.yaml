@@ -153,7 +153,7 @@ paths:
           description: Internal Server Error
       security:
         - Bearer: []
-security:
+securityDefinitions:
   Bearer:
     type: apiKey
     name: Authorization
